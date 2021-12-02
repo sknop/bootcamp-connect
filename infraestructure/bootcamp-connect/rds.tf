@@ -23,7 +23,7 @@ resource "aws_db_instance" "default" {
     description = "MySQL db  - Managed by Terraform"
 
   }
-  multi_az               = false
+  multi_az               = true
   #subnet_ids             = module.vpc.database_subnets
   vpc_security_group_ids = [aws_security_group.MySQL_RDS.id]
   db_subnet_group_name    = aws_db_subnet_group.aurora_subnet_group.name
