@@ -82,9 +82,31 @@ resource "aws_security_group" "MySQL_RDS" {
     cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
   }
 
-
 }
 
+resource "aws_security_group" "Oracle_RDS" {
+  description = "Oracle RDS - Managed by Terraform"
+  name = "${var.ownershort}-oracle-rds"
+
+  vpc_id = aws_vpc.bootcamp_connect.id
+
+   # cluster
+  ingress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      self = true
+  }
+
+  ingress {
+    from_port   = 1521
+    to_port     = 1521
+    protocol    = "tcp"
+    description = "Oracle access from within VPC"
+    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  }
+
+}
 
 resource "aws_security_group" "ssh" {
   description = "Managed by Terraform"
