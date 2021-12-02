@@ -81,7 +81,6 @@ resource "aws_security_group" "MySQL_RDS" {
     description = "mySQL access from within VPC"
     cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
   }
-
 }
 
 resource "aws_security_group" "Oracle_RDS" {
@@ -105,7 +104,37 @@ resource "aws_security_group" "Oracle_RDS" {
     description = "Oracle access from within VPC"
     cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
   }
+}
 
+resource "aws_security_group" "elastic" {
+  description = "Elasticsearch - Managed by Terraform"
+  name = "${var.ownershort}-elasticsearch"
+
+  vpc_id = aws_vpc.bootcamp_connect.id
+
+   # cluster
+  ingress {
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      self = true
+  }
+
+  ingress {
+    from_port   = 9200
+    to_port     = 9200
+    protocol    = "tcp"
+    description = "Elasticsearch access from within VPC"
+    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  }
+
+  ingress {
+    from_port   = 5601
+    to_port     = 5601
+    protocol    = "tcp"
+    description = "Kibana access from within VPC"
+    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  }
 }
 
 resource "aws_security_group" "ssh" {

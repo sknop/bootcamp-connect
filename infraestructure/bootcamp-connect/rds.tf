@@ -34,7 +34,7 @@ resource "aws_db_instance" "oracle" {
   engine               = "oracle-ee"
   engine_version       = "12.1.0.2.v8"
   instance_class       = "db.t3.large"
-  name                 = "myoracle"
+  name                 = "MYORACLE"
   username             = var.root_username
   password             = var.root_password
   #parameter_group_name = "default.oracle-ee-18"
