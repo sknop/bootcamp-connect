@@ -3,8 +3,8 @@ resource "aws_db_instance" "default" {
   engine_version       = "5.7"
   instance_class       = "db.t3.micro"
   name                 = "mydb"
-  username             = "foo"
-  password             = "foobarbaz"
+  username             = var.root_username
+  password             = var.root_password
   parameter_group_name = "default.mysql5.7"
   skip_final_snapshot  = true
   identifier           = "${var.ownershort}-mysql"
@@ -35,8 +35,8 @@ resource "aws_db_instance" "oracle" {
   engine_version       = "12.1.0.2.v8"
   instance_class       = "db.t3.large"
   name                 = "myoracle"
-  username             = "foo"
-  password             = "foobarbaz"
+  username             = var.root_username
+  password             = var.root_password
   #parameter_group_name = "default.oracle-ee-18"
   skip_final_snapshot  = true
   identifier           = "${var.ownershort}-oracle"
@@ -59,7 +59,6 @@ resource "aws_db_instance" "oracle" {
   #subnet_ids             = module.vpc.database_subnets
   vpc_security_group_ids = [aws_security_group.Oracle_RDS.id]
   db_subnet_group_name    = aws_db_subnet_group.aurora_subnet_group.name
-
 }
 
 locals {
