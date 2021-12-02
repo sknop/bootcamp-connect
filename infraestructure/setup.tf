@@ -25,7 +25,6 @@ variable "instance_type" {
 }
 
 variable "myip" {
-  default = "78.55.73.227"
 }
 
 module "ireland-cluster" {
