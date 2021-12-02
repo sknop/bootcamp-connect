@@ -1,0 +1,12 @@
+[elk-master-nodes]
+ec2-34-253-185-1.eu-west-1.compute.amazonaws.com
+ec2-52-49-166-219.eu-west-1.compute.amazonaws.com
+ec2-54-220-124-66.eu-west-1.compute.amazonaws.com
+
+[elk-kibana-nodes]
+ec2-34-253-185-1.eu-west-1.compute.amazonaws.com
+ec2-52-49-166-219.eu-west-1.compute.amazonaws.com
+ec2-54-220-124-66.eu-west-1.compute.amazonaws.com
+
+[elk-master-nodes:vars]
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
