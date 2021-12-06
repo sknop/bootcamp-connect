@@ -12,9 +12,12 @@ public class DataGen {
     private String databaseUrl;
     private Store store;
 
-    public DataGen(double initialPercent) {
+    public DataGen(double initialPercent, String databaseUrl) {
         this.initialPercent = initialPercent;
-        this.databaseUrl = "jdbc:mysql://pub-mysql.cmhtgh6yg7h9.eu-west-1.rds.amazonaws.com:3306/movielens?user=foo&password=foobarbaz";
+        this.databaseUrl = databaseUrl;
+    }
+
+    public DataGen(double initialPercent, ) {
     }
 
     public void run(String dir) throws IOException, SQLException, InterruptedException {
@@ -39,10 +42,13 @@ public class DataGen {
     }
 
     public static void main(String[] args) throws Exception {
-        Logger.setGlobalLogLevel(Level.DEBUG);
-        DataGen dataGen = new DataGen(0.05);
+        Logger.setGlobalLogLevel(Level.INFO);
 
-        dataGen.run("/Users/pere/Datasets/movie_lens/ml-latest");
+        String mySqlDatabaseUrl = "jdbc:mysql://pub-mysql.cmhtgh6yg7h9.eu-west-1.rds.amazonaws.com:3306/movielens?user=foo&password=foobarbaz";
+        String baseDir = "/Users/pere/Datasets/movie_lens/ml-latest";
+
+        DataGen dataGen = new DataGen(0.05, mySqlDatabaseUrl);
+        dataGen.run(baseDir);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
