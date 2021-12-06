@@ -13,7 +13,7 @@ CREATE TABLE movies (
     title VARCHAR(500) NOT NULL,
     year VARCHAR(4) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP(6)
 );
 
 CREATE TABLE genres (
@@ -34,8 +34,8 @@ CREATE TABLE ratings (
   user_id BIGINT UNSIGNED not null,
   movie_id BIGINT UNSIGNED not null,
   rating  DECIMAL(2,1) not null,
-  timestamp  int(11) not null,
-  CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id)
+  timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id, rating)
 );
 
 /*userId,movieId,tag,timestamp*/
@@ -43,6 +43,6 @@ CREATE TABLE tags (
    user_id BIGINT UNSIGNED not null,
    movie_id BIGINT UNSIGNED not null,
    tag VARCHAR(50) not null,
-   timestamp  int(11) not null,
-   CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id)
+   timestamp  TIMESTAMP(6) NOT NULL,
+   CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id, tag)
 );

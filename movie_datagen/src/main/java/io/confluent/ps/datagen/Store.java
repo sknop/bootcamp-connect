@@ -4,6 +4,8 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import io.confluent.ps.datagen.model.Genre;
 import io.confluent.ps.datagen.model.Movie;
+import io.confluent.ps.datagen.model.Tag;
+import lombok.SneakyThrows;
 import org.apache.commons.collections4.ListUtils;
 
 import java.sql.SQLException;
@@ -29,7 +31,7 @@ public class Store {
     private Store(ConnectionSource connectionSource) {
         this.movieStore = new MovieStore(connectionSource);
         this.threadPool = Executors.newScheduledThreadPool(10);
-        this.latch = new CountDownLatch(2);
+        this.latch = new CountDownLatch(4);
     }
 
     public static Store build(String databaseUrl) throws SQLException {
@@ -38,9 +40,10 @@ public class Store {
 
     }
 
-    public void process(List<Map.Entry<Movie, List<Genre>>> movies) throws InterruptedException {
-        ScheduledFuture<String> load = threadPool.schedule(mainLoad(movies), 2, TimeUnit.SECONDS);
-        var refreshment = threadPool.scheduleAtFixedRate(doUpdates(), 5, 5, TimeUnit.SECONDS);
+    public void process(List<Map.Entry<Movie, List<Genre>>> movies, List<Tag> tags) throws InterruptedException {
+        threadPool.schedule(mainLoad(movies), 2, TimeUnit.SECONDS);
+        threadPool.schedule(loadTags(tags), 1, TimeUnit.SECONDS);
+        threadPool.scheduleAtFixedRate(doUpdates(), 5, 5, TimeUnit.SECONDS);
         // wait for termination
         latch.await();
     }
@@ -48,6 +51,24 @@ public class Store {
     public void close() throws InterruptedException {
         threadPool.shutdown();
         threadPool.awaitTermination(2, TimeUnit.MINUTES);
+    }
+
+    public Callable<String> loadTags(List<Tag> tags) {
+        return () -> {
+            ListUtils.partition(tags, 500)
+                    .forEach(new Consumer<List<Tag>>() {
+                        @Override
+                        public void accept(List<Tag> tags) {
+                            try {
+                                movieStore.batchStoreTags(tags);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+            latch.countDown();
+            return "done";
+        };
     }
 
     public Callable<String> mainLoad(List<Map.Entry<Movie, List<Genre>>> movies) {

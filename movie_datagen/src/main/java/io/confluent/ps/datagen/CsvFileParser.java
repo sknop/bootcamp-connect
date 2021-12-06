@@ -2,6 +2,7 @@ package io.confluent.ps.datagen;
 
 import io.confluent.ps.datagen.model.Genre;
 import io.confluent.ps.datagen.model.Movie;
+import io.confluent.ps.datagen.model.Tag;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -9,6 +10,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +64,35 @@ public class CsvFileParser {
         return movies;
     }
 
+    public List<Tag> loadTags(String path) throws IOException {
+
+        Reader in = new FileReader(path);
+        CSVParser parser = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
+        List<Tag> tags;
+
+        try {
+            tags = parser.stream().map(new Function<CSVRecord, Tag>() {
+                @Override
+                public Tag apply(CSVRecord record) {
+                    Tag tag = new Tag();
+                    tag.setTag(record.get("tag"));
+                    tag.setUserId(Long.parseLong(record.get("userId")));
+                    tag.setMovieId(Long.parseLong(record.get("movieId")));
+
+                    long timestamp = Long.parseLong(record.get("timestamp"));
+                    tag.setTimestamp(new Timestamp(timestamp));
+
+                    return tag;
+                }
+            }).collect(Collectors.toList());
+
+        } finally {
+            parser.close();
+            in.close();
+        }
+
+        return tags;
+    }
     private String[] getTitleAndYear(String title) {
         Matcher matcher = movieTitlePattern.matcher(title);
         if (matcher.matches()) {

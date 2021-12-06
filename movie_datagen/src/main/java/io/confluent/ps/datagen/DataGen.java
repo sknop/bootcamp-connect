@@ -20,12 +20,15 @@ public class DataGen {
     public void run(String dir) throws IOException, SQLException, InterruptedException {
         CsvFileParser parser = new CsvFileParser();
         var movies = parser.loadFile(dir + "/movies.csv");
+        var tags = parser.loadTags(dir + "/tags.csv");
+
         store = Store.build(databaseUrl);
 
         var initialLoadCount = (int)Math.round(movies.size()*initialPercent);
         System.out.println("Loading as initial load: "+initialLoadCount+" movies, rest will be used as future delayed inserts");
+
         long time = System.currentTimeMillis();
-        store.process(movies.subList(0, initialLoadCount));
+        store.process(movies.subList(0, initialLoadCount), tags.subList(0,50000));
         long all = System.currentTimeMillis()-time;
         System.out.println("total: "+all);
 
@@ -36,8 +39,8 @@ public class DataGen {
     }
 
     public static void main(String[] args) throws Exception {
-        Logger.setGlobalLogLevel(Level.INFO);
-        DataGen dataGen = new DataGen(0.001);
+        Logger.setGlobalLogLevel(Level.DEBUG);
+        DataGen dataGen = new DataGen(0.05);
 
         dataGen.run("/Users/pere/Datasets/movie_lens/ml-latest");
 

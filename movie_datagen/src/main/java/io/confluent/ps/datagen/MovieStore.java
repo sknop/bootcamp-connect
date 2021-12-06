@@ -7,10 +7,13 @@ import com.j256.ormlite.support.ConnectionSource;
 import io.confluent.ps.datagen.model.Genre;
 import io.confluent.ps.datagen.model.Movie;
 import io.confluent.ps.datagen.model.MovieGenre;
+import io.confluent.ps.datagen.model.Tag;
 import lombok.SneakyThrows;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -23,6 +26,7 @@ public class MovieStore {
     private final Dao<Movie, Long> movieDao;
     private final Dao<Genre, Long> genreDao;
     private final Dao<MovieGenre, Long> movieGenreDao;
+    private final Dao<Tag, Long> tagDao;
 
     @SneakyThrows
     public MovieStore(ConnectionSource connectionSource) {
@@ -33,6 +37,8 @@ public class MovieStore {
                 DaoManager.createDao(connectionSource, Genre.class);
         this.movieGenreDao =
                 DaoManager.createDao(connectionSource, MovieGenre.class);
+        this.tagDao =
+                DaoManager.createDao(connectionSource, Tag.class);
     }
 
     public void store(Movie movie, List<Genre> genres) throws SQLException {
@@ -44,6 +50,9 @@ public class MovieStore {
         }
     }
 
+    public void batchStoreTags(List<Tag> tags) throws Exception {
+        tagDao.create(tags);
+    }
     public void batchStoreGenres(List<Genre> genres) throws Exception {
         genreDao.callBatchTasks(new Callable<Void>(){
             @Override
@@ -96,7 +105,8 @@ public class MovieStore {
             long idToUpdate = (long)((Math.random() * (latestId-1)) + 1);
             Movie movie = movieDao.queryForId(idToUpdate);
             if (movie != null) {
-                movie.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+                var instant = Instant.now().truncatedTo(ChronoUnit.MICROS);
+                movie.setUpdatedAt(Timestamp.from(instant));
                 System.out.println("updating movie:" + movie);
                 movieDao.update(movie);
             }
