@@ -5,9 +5,10 @@ import com.j256.ormlite.support.ConnectionSource;
 import io.confluent.ps.datagen.model.Genre;
 import io.confluent.ps.datagen.model.Movie;
 import io.confluent.ps.datagen.model.Tag;
-import lombok.SneakyThrows;
 import org.apache.commons.collections4.ListUtils;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
@@ -16,10 +17,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Store {
@@ -27,16 +26,23 @@ public class Store {
     MovieStore movieStore;
     ScheduledExecutorService threadPool;
     CountDownLatch latch;
+    Connection[] connections;
 
-    private Store(ConnectionSource connectionSource) {
-        this.movieStore = new MovieStore(connectionSource);
+    private Store(ConnectionSource connectionSource, Connection[] connections) {
+        this.movieStore = new MovieStore(connectionSource, connections);
         this.threadPool = Executors.newScheduledThreadPool(10);
         this.latch = new CountDownLatch(4);
+        this.connections = connections;
     }
 
     public static Store build(String databaseUrl) throws SQLException {
         ConnectionSource connectionSource = new JdbcConnectionSource(databaseUrl);
-        return new Store(connectionSource);
+        Connection[] connections = new Connection[]{
+                DriverManager.getConnection(databaseUrl),
+                DriverManager.getConnection(databaseUrl),
+                DriverManager.getConnection(databaseUrl)
+        };
+        return new Store(connectionSource, connections);
 
     }
 
@@ -48,9 +54,12 @@ public class Store {
         latch.await();
     }
 
-    public void close() throws InterruptedException {
+    public void close() throws Exception {
         threadPool.shutdown();
         threadPool.awaitTermination(2, TimeUnit.MINUTES);
+        for(Connection con : connections) {
+            con.close();
+        }
     }
 
     public Callable<String> loadTags(List<Tag> tags) {

@@ -29,7 +29,7 @@ CREATE TABLE movies_to_genres (
    FOREIGN KEY (genre_id)  REFERENCES genres(id)
 );
 
-/*userId,movieId,rating,timestamp*/
+/*userId,movieId,rating,timestamp
 CREATE TABLE ratings (
   user_id BIGINT UNSIGNED not null,
   movie_id BIGINT UNSIGNED not null,
@@ -37,6 +37,7 @@ CREATE TABLE ratings (
   timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id, rating)
 );
+*/
 
 /*userId,movieId,tag,timestamp*/
 CREATE TABLE tags (

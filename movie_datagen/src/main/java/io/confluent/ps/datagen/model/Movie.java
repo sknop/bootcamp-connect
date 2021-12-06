@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@DatabaseTable(tableName = "movies")
+@DatabaseTable(tableName = "movies", schemaName = "movielens")
 @NoArgsConstructor
 @ToString
 public class Movie {
@@ -26,4 +26,12 @@ public class Movie {
 
     @DatabaseField(columnName = "updated_at")
     @Getter @Setter private java.sql.Timestamp updatedAt;
+
+    public static String getTable() {
+        return "movies";
+    }
+
+    public static String getGenreMapTable() {
+        return "movies_to_genres";
+    }
 }

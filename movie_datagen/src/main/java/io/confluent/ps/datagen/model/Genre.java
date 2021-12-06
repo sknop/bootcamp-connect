@@ -11,7 +11,7 @@ import lombok.ToString;
 
 import java.util.Objects;
 
-@DatabaseTable(tableName = "genres")
+@DatabaseTable(tableName = "genres", schemaName = "movielens")
 @NoArgsConstructor
 @ToString
 public class Genre {
@@ -19,7 +19,7 @@ public class Genre {
     @DatabaseField(id = true)
     @Getter @Setter private int id;
 
-    @DatabaseField(canBeNull = false)
+    @DatabaseField(canBeNull = false, columnName = "name")
     @NonNull
     @Getter @Setter private String name;
 
@@ -40,4 +40,9 @@ public class Genre {
     public int hashCode() {
         return Objects.hash(getName());
     }
+
+    public static String getTable() {
+        return "genres";
+    }
+
 }

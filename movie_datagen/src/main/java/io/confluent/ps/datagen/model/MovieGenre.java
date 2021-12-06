@@ -8,7 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@DatabaseTable(tableName = "movies_to_genres")
+@DatabaseTable(tableName = "movies_to_genres", schemaName = "movielens")
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class MovieGenre {

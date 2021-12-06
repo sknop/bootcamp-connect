@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@DatabaseTable(tableName = "tags")
+@DatabaseTable(tableName = "tags", schemaName = "movielens")
 @NoArgsConstructor
 @RequiredArgsConstructor
 @ToString
@@ -28,4 +28,8 @@ public class Tag {
 
     @DatabaseField(columnName = "timestamp")
     @Getter @Setter private java.sql.Timestamp timestamp;
+
+    public static String getTable() {
+        return "tags";
+    }
 }
