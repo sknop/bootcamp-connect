@@ -17,9 +17,6 @@ public class DataGen {
         this.databaseUrl = databaseUrl;
     }
 
-    public DataGen(double initialPercent, ) {
-    }
-
     public void run(String dir) throws IOException, SQLException, InterruptedException {
         CsvFileParser parser = new CsvFileParser();
         var movies = parser.loadFile(dir + "/movies.csv");
