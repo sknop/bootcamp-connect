@@ -4,7 +4,7 @@
 #    --data '{"compatibility": "NONE"}' \
 #    http://localhost:8081/config/dbo-value
 
-     curl -i -X POST -H "Accept:application/json" \
+curl -i -X POST -H "Accept:application/json" \
                  -H  "Content-Type:application/json" http://localhost:18083/connectors/ \
                  -d '{
                    "name": "mysql-source-movies-raw",
