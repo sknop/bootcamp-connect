@@ -5,7 +5,7 @@ resource "aws_db_instance" "default" {
   name                 = "mydb"
   username             = var.root_username
   password             = var.root_password
-  parameter_group_name = "default.mysql5.7"
+  parameter_group_name = aws_db_parameter_group.default.name #"default.mysql5.7"
   skip_final_snapshot  = true
   identifier           = "${var.ownershort}-mysql"
 
@@ -13,9 +13,11 @@ resource "aws_db_instance" "default" {
   max_allocated_storage = 100
 
   publicly_accessible = true
+  backup_retention_period = 35
 
   port = 3306
   storage_type = "gp2"
+
   tags = {
     Name = "${var.ownershort}-mysql"
     Owner_Name = var.Owner_Name
@@ -23,11 +25,22 @@ resource "aws_db_instance" "default" {
     description = "MySQL db  - Managed by Terraform"
 
   }
+
   multi_az               = true
   #subnet_ids             = module.vpc.database_subnets
   vpc_security_group_ids = [aws_security_group.MySQL_RDS.id]
   db_subnet_group_name    = aws_db_subnet_group.aurora_subnet_group.name
 
+}
+
+resource "aws_db_parameter_group" "default" {
+  name   = "rds-cdc-mysql57"
+  family = "mysql5.7"
+
+  parameter {
+    name  = "binlog_format"
+    value = "ROW"
+  }
 }
 
 resource "aws_db_instance" "oracle" {
