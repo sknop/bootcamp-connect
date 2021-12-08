@@ -56,6 +56,7 @@ resource "aws_db_instance" "oracle" {
 
   allocated_storage     = 50
   max_allocated_storage = 100
+  backup_retention_period = 35
 
   publicly_accessible = true
 
