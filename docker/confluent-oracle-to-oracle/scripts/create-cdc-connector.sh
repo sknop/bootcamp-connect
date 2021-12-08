@@ -41,3 +41,9 @@ curl -i -X POST -H "Accept:application/json" \
                     }
                  }'
 sleep 5
+
+
+# ALTER TABLE MOVIELENS.MOVIES ADD CITY VARCHAR(50);
+# ALTER TABLE MOVIELENS.MOVIES DROP COLUMN CITY;
+# snapshot
+# "start.from":"791318"
