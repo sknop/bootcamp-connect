@@ -7,7 +7,7 @@ curl -X DELETE \
 
 curl -X DELETE \
      -H "Content-Type: application/json" \
-     http://localhost:18083/connectors/mysql-source-movies-raw
+     http://localhost:18083/connectors/oracle-source-movies-raw
 
 sleep 2
 
