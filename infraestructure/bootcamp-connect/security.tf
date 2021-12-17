@@ -129,6 +129,15 @@ resource "aws_security_group" "elastic" {
   }
 
   ingress {
+    from_port   = 9300
+    to_port     = 9300
+    protocol    = "tcp"
+    description = "Elasticsearch access from within VPC"
+    self = true
+    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  }
+
+  ingress {
     from_port   = 5601
     to_port     = 5601
     protocol    = "tcp"

@@ -1,0 +1,14 @@
+- hosts: elk-kibana-nodes
+  become: yes
+  tags: kibana
+  roles:
+    - role: geerlingguy.kibana
+  vars:
+    ansible_ssh_private_key_file: "~/.ssh/purbon-ireland-sa.pem"
+    ansible_user: "ubuntu"
+    kibana_version: "7.x"
+    kibana_package: kibana
+    kibana_package_state: present
+    kibana_server_port: 5601
+    kibana_server_host: "0.0.0.0"
+    kibana_elasticsearch_url: "http://ec2-34-253-185-1.eu-west-1.compute.amazonaws.com:9200"
