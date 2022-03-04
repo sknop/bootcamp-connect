@@ -66,6 +66,12 @@ resource "aws_security_group" "MySQL_RDS" {
 
   vpc_id = aws_vpc.bootcamp_connect.id
 
+  tags = {
+    Name = "${var.ownershort}-mysql-rds"
+    Owner_Name = var.Owner_Name
+    Owner_Email = var.Owner_Email
+  }
+
    # cluster
   ingress {
       from_port = 0
@@ -74,13 +80,17 @@ resource "aws_security_group" "MySQL_RDS" {
       self = true
   }
 
-  ingress {
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    description = "mySQL access from within VPC"
-    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
+      from_port   = 3306
+      to_port     = 3306
+      protocol    = "tcp"
+      description = "mySQL access from within VPC"
+      cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${ingress.value}"]
+    }
   }
+
 }
 
 resource "aws_security_group" "Oracle_RDS" {
@@ -89,6 +99,12 @@ resource "aws_security_group" "Oracle_RDS" {
 
   vpc_id = aws_vpc.bootcamp_connect.id
 
+  tags = {
+    Name = "${var.ownershort}-oracle-rds"
+    Owner_Name = var.Owner_Name
+    Owner_Email = var.Owner_Email
+  }
+
    # cluster
   ingress {
       from_port = 0
@@ -97,18 +113,27 @@ resource "aws_security_group" "Oracle_RDS" {
       self = true
   }
 
-  ingress {
-    from_port   = 1521
-    to_port     = 1521
-    protocol    = "tcp"
-    description = "Oracle access from within VPC"
-    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
+      from_port   = 1521
+      to_port     = 1521
+      protocol    = "tcp"
+      description = "Oracle access from within VPC"
+      cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${ingress.value}"]
+    }
   }
 }
 
 resource "aws_security_group" "elastic" {
   description = "Elasticsearch - Managed by Terraform"
   name = "${var.ownershort}-elasticsearch"
+
+  tags = {
+    Name = "${var.ownershort}-elasticsearch"
+    Owner_Name = var.Owner_Name
+    Owner_Email = var.Owner_Email
+  }
 
   vpc_id = aws_vpc.bootcamp_connect.id
 
@@ -120,29 +145,38 @@ resource "aws_security_group" "elastic" {
       self = true
   }
 
-  ingress {
-    from_port   = 9200
-    to_port     = 9200
-    protocol    = "tcp"
-    description = "Elasticsearch access from within VPC"
-    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
+      from_port   = 9200
+      to_port     = 9200
+      protocol    = "tcp"
+      description = "Elasticsearch access from within VPC"
+      cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${ingress.value}"]
+    }
   }
 
-  ingress {
-    from_port   = 9300
-    to_port     = 9300
-    protocol    = "tcp"
-    description = "Elasticsearch access from within VPC"
-    self = true
-    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
+      from_port   = 9300
+      to_port     = 9300
+      protocol    = "tcp"
+      description = "Elasticsearch access from within VPC"
+      self = true
+      cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${ingress.value}"]
+    }
   }
 
-  ingress {
-    from_port   = 5601
-    to_port     = 5601
-    protocol    = "tcp"
-    description = "Kibana access from within VPC"
-    cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${local.myip-cidr}"]
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
+      from_port   = 5601
+      to_port     = 5601
+      protocol    = "tcp"
+      description = "Kibana access from within VPC"
+      cidr_blocks = [aws_vpc.bootcamp_connect.cidr_block, "${ingress.value}"]
+    }
   }
 }
 
@@ -152,22 +186,27 @@ resource "aws_security_group" "ssh" {
 
   vpc_id = aws_vpc.bootcamp_connect.id
 
-  # Allow ping from my ip and self
-  ingress {
-    from_port = 8
-    to_port = 0
-    protocol = "icmp"
-    self = true
-    cidr_blocks = ["${local.myip-cidr}"]
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
+      from_port = 8
+      to_port = 0
+      protocol = "icmp"
+      self = true
+      cidr_blocks = ["${ingress.value}"]
+    }
   }
 
-  # ssh from me and self
-  ingress {
+
+  dynamic "ingress" {
+    for_each = local.myip-cidrs
+    content {
       from_port = 22
       to_port = 22
       protocol = "TCP"
       self = true
-      cidr_blocks = ["${local.myip-cidr}"]
+      cidr_blocks = ["${ingress.value}"]
+    }
   }
 
   # ssh from anywhere

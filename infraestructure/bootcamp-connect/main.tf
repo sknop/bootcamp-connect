@@ -26,7 +26,12 @@ variable "azs" {
   type = list
 }
 
-variable "myip" { }
+variable "myips" {
+  type    = list(string)
+  default = []
+}
+
 locals {
-  myip-cidr = "${var.myip}/32"
+ //  myip-cidr = "${var.myip}/32"
+  myip-cidrs = [for myip in var.myips : "${myip}/32" ]
 }

@@ -43,9 +43,10 @@ public class DataGen {
         Logger.setGlobalLogLevel(Level.DEBUG);
 
         //String databaseUrl = "jdbc:mysql://pub-mysql.cmhtgh6yg7h9.eu-west-1.rds.amazonaws.com:3306/movielens?user=foo&password=foobarbaz";
-        String baseDir = "/Users/pere/Datasets/movie_lens/ml-latest";
         String databaseUrl = "jdbc:oracle:thin:@pub-oracle.cmhtgh6yg7h9.eu-west-1.rds.amazonaws.com:1521/myoracle?user=movielens&password=movielens";
-        DataGen dataGen = new DataGen(0.01, databaseUrl);
+
+        String baseDir = "/Users/pere/Datasets/movie_lens/ml-latest";
+        DataGen dataGen = new DataGen(0.5, databaseUrl);
         dataGen.run(baseDir);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

@@ -2,4 +2,4 @@
 
 set -xe
 
-terraform plan -var myip=$1 -var region="eu-west-1" -parallelism=20
+terraform plan -var-file="bootcamp.tfvars" -parallelism=20

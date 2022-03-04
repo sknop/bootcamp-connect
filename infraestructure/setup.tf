@@ -24,7 +24,11 @@ variable "instance_type" {
   default = "t2.medium"
 }
 
-variable "myip" {}
+variable "myips" {
+  type    = list(string)
+  default = []
+}
+
 variable "root_username" {
   default = "foo"
 }
@@ -40,7 +44,7 @@ module "ireland-cluster" {
   Owner_Name     = var.Owner_Name
   Owner_Email    = var.Owner_Email
   key_name       = "purbon-ireland-sa"
-  myip           = var.myip
+  myips          = var.myips
   root_username  = var.root_username
   root_password  = var.root_password
   ownershort     = var.ownershort

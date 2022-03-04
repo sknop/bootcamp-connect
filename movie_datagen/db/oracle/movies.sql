@@ -1,4 +1,7 @@
-/*CREATE USER movielens IDENTIFIED BY movielens;*/
+CREATE USER movielens IDENTIFIED BY movielens;
+
+---
+
 GRANT CREATE TABLE TO movielens;
 GRANT CREATE SESSION TO movielens;
 
