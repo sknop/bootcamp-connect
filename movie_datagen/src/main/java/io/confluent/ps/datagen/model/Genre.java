@@ -42,7 +42,7 @@ public class Genre {
     }
 
     public static String getTable() {
-        return "genres";
+        return "movielens.genres";
     }
 
 }

@@ -5,12 +5,11 @@ import com.j256.ormlite.logger.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collections;
 
 public class DataGen {
 
-    private double initialPercent;
-    private String databaseUrl;
+    final private double initialPercent;
+    final private String databaseUrl;
     private Store store;
 
     public DataGen(double initialPercent, String databaseUrl) {
@@ -42,10 +41,15 @@ public class DataGen {
     public static void main(String[] args) throws Exception {
         Logger.setGlobalLogLevel(Level.DEBUG);
 
-        //String databaseUrl = "jdbc:mysql://pub-mysql.cmhtgh6yg7h9.eu-west-1.rds.amazonaws.com:3306/movielens?user=foo&password=foobarbaz";
-        String databaseUrl = "jdbc:oracle:thin:@pub-oracle.cmhtgh6yg7h9.eu-west-1.rds.amazonaws.com:1521/myoracle?user=movielens&password=movielens";
+        if (args.length < 2) {
+            System.err.println("Usage: DataGen <database-url> <data-set-base-dir>");
+            System.exit(1);
+        }
 
-        String baseDir = "/Users/pere/Datasets/movie_lens/ml-latest";
+        String databaseUrl = args[0];
+
+        String baseDir = args[1];
+
         DataGen dataGen = new DataGen(0.5, databaseUrl);
         dataGen.run(baseDir);
 

@@ -3,16 +3,14 @@
   roles:
     - role: elastic.elasticsearch
   vars:
-    ansible_ssh_private_key_file: "~/.ssh/purbon-ireland-sa.pem"
-    ansible_user: "ubuntu"
     es_data_dirs:
       - "/var/lib/elasticsearch"
     es_heap_size: "12g"
     es_config:
       cluster.name: "esprd"
       network.host: "0.0.0.0"
-      discovery.seed_hosts: "ec2-34-253-185-1.eu-west-1.compute.amazonaws.com,ec2-52-49-166-219.eu-west-1.compute.amazonaws.com,ec2-54-220-124-66.eu-west-1.compute.amazonaws.com"
-      cluster.initial_master_nodes: "ip-10-0-10-215"
+      discovery.seed_hosts: "ec2-54-74-134-81.eu-west-1.compute.amazonaws.com,ec2-54-77-204-109.eu-west-1.compute.amazonaws.com,ec2-34-252-86-197.eu-west-1.compute.amazonaws.com"
+      cluster.initial_master_nodes: "ip-172-32-0-77"
       http.port: 9200
       node.data: true
       node.master: true

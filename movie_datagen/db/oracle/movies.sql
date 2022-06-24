@@ -7,10 +7,10 @@ GRANT CREATE SESSION TO movielens;
 
 GRANT UNLIMITED TABLESPACE TO movielens;
 
-GRANT SELECT ON movielens.movies TO foo;
-GRANT SELECT ON movielens.movies_to_genres TO foo;
-GRANT SELECT ON movielens.tags TO foo;
-GRANT SELECT ON movielens.genres TO foo;
+GRANT SELECT ON movielens.movies TO admin;
+GRANT SELECT ON movielens.movies_to_genres TO admin;
+GRANT SELECT ON movielens.tags TO admin;
+GRANT SELECT ON movielens.genres TO admin;
 
 DROP TABLE movielens.movies_to_genres;
 DROP TABLE movielens.tags;
@@ -38,8 +38,8 @@ CREATE TABLE movielens.movies_to_genres (
   movie_id NUMBER,
   genre_id NUMBER,
   PRIMARY KEY (id),
-  FOREIGN KEY (movie_id)  REFERENCES movies(id),
-  FOREIGN KEY (genre_id)  REFERENCES genres(id)
+  FOREIGN KEY (movie_id)  REFERENCES movielens.movies(id),
+  FOREIGN KEY (genre_id)  REFERENCES movielens.genres(id)
 );
 
 CREATE SEQUENCE MOVIES_TO_GENRES_ID_SEQ START WITH 1;
@@ -54,5 +54,5 @@ CREATE TABLE movielens.tags (
 );
 
 
-ALTER USER foo quota unlimited on USERS;
-insert into movielens.movies values (1, 'foo', 2021, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ALTER USER admin quota unlimited on USERS;
+insert into movielens.movies values (1, 'admin', 2021, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)

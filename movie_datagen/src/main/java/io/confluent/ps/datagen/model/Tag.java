@@ -30,6 +30,6 @@ public class Tag {
     @Getter @Setter private java.sql.Timestamp timestamp;
 
     public static String getTable() {
-        return "tags";
+        return "movielens.tags";
     }
 }

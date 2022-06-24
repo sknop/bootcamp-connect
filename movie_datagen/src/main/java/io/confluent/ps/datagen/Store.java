@@ -1,7 +1,5 @@
 package io.confluent.ps.datagen;
 
-import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
 import io.confluent.ps.datagen.model.Genre;
 import io.confluent.ps.datagen.model.Movie;
 import io.confluent.ps.datagen.model.Tag;
@@ -28,21 +26,21 @@ public class Store {
     CountDownLatch latch;
     Connection[] connections;
 
-    private Store(ConnectionSource connectionSource, Connection[] connections) {
-        this.movieStore = new MovieStore(connectionSource, connections);
+    private Store(Connection[] connections) {
+        this.movieStore = new MovieStore(connections);
         this.threadPool = Executors.newScheduledThreadPool(10);
         this.latch = new CountDownLatch(4);
         this.connections = connections;
     }
 
     public static Store build(String databaseUrl) throws SQLException {
-        ConnectionSource connectionSource = new JdbcConnectionSource(databaseUrl);
-        Connection[] connections = new Connection[]{
+        DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+        Connection[] connections = new Connection[] {
                 DriverManager.getConnection(databaseUrl),
                 DriverManager.getConnection(databaseUrl),
                 DriverManager.getConnection(databaseUrl)
         };
-        return new Store(connectionSource, connections);
+        return new Store(connections);
 
     }
 

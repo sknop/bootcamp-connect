@@ -22,17 +22,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class MovieStore {
-
-
-    private final ConnectionSource connectionSource;
     private final TagDao tagDao;
-    private MovieDao movieDao;
+    private final MovieDao movieDao;
     private final GenresDao genreDao;
 
 
     @SneakyThrows
-    public MovieStore(ConnectionSource connectionSource, Connection[] connections) {
-        this.connectionSource = connectionSource;
+    public MovieStore(Connection[] connections) {
         this.genreDao = new GenresDao(connections[0]);
         this.tagDao = new TagDao(connections[1]);
         this.movieDao = new MovieDao(connections[2]);
@@ -61,7 +57,7 @@ public class MovieStore {
 
 
         var movies = entries.stream()
-                .map(e -> e.getKey())
+                .map(Map.Entry::getKey)
                 .map(movie -> {
                     var createTime = new Timestamp(System.currentTimeMillis());
                     movie.setCreatedAt(createTime);

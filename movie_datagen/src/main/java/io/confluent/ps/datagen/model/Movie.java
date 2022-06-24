@@ -28,7 +28,7 @@ public class Movie {
     @Getter @Setter private java.sql.Timestamp updatedAt;
 
     public static String getTable() {
-        return "movies";
+        return "movielens.movies";
     }
 
     public static String getGenreMapTable() {
