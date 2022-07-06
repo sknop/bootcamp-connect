@@ -1,63 +1,69 @@
 
-CREATE USER 'sven'@'%' IDENTIFIED WITH mysql_native_password BY 'songoan'  PASSWORD EXPIRE INTERVAL 30 DAY;
+CREATE USER 'sven'@'%' IDENTIFIED WITH mysql_native_password BY 'sven-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
 GRANT ALL ON movielens.* TO 'sven'@'%';
 GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'sven'@'%';
 GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'sven'@'%';
 
-CREATE USER 'christoph'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
+CREATE USER 'amy'@'%' IDENTIFIED WITH mysql_native_password BY 'amy-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
-GRANT ALL ON movielens.* TO 'christoph'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'christoph'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'christoph'@'%';
+GRANT ALL ON movielens.* TO 'amy'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'amy'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'amy'@'%';
 
-CREATE USER 'jorge'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
+CREATE USER 'dennis'@'%' IDENTIFIED WITH mysql_native_password BY 'dennis-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
-GRANT ALL ON movielens.* TO 'jorge'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'jorge'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'jorge'@'%';
-
-
-CREATE USER 'kirill'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
-
-GRANT ALL ON movielens.* TO 'kirill'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'kirill'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'kirill'@'%';
-
-CREATE USER 'laurent'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
-
-GRANT ALL ON movielens.* TO 'laurent'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'laurent'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'laurent'@'%';
-
-CREATE USER 'oscar'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
-
-GRANT ALL ON movielens.* TO 'oscar'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'oscar'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'oscar'@'%';
+GRANT ALL ON movielens.* TO 'dennis'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'dennis'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'dennis'@'%';
 
 
-CREATE USER 'benedikt'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
+CREATE USER 'alberto'@'%' IDENTIFIED WITH mysql_native_password BY 'alberto-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
-GRANT ALL ON movielens.* TO 'benedikt'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'benedikt'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'benedikt'@'%';
+GRANT ALL ON movielens.* TO 'alberto'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'alberto'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'alberto'@'%';
+
+CREATE USER 'marcel'@'%' IDENTIFIED WITH mysql_native_password BY 'marcel-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
+
+GRANT ALL ON movielens.* TO 'marcel'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'marcel'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'marcel'@'%';
+
+CREATE USER 'nakul'@'%' IDENTIFIED WITH mysql_native_password BY 'nakul-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
+
+GRANT ALL ON movielens.* TO 'nakul'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'nakul'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'nakul'@'%';
 
 
-CREATE USER 'damien'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
+CREATE USER 'peter'@'%' IDENTIFIED WITH mysql_native_password BY 'peter-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
-GRANT ALL ON movielens.* TO 'damien'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'damien'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'damien'@'%';
+GRANT ALL ON movielens.* TO 'peter'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'peter'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'peter'@'%';
 
-CREATE USER 'jakub'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
-GRANT ALL ON movielens.* TO 'jakub'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'jakub'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'jakub'@'%';
+CREATE USER 'piotr'@'%' IDENTIFIED WITH mysql_native_password BY 'piotr-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
 
-CREATE USER 'nacho'@'%' IDENTIFIED WITH mysql_native_password BY 'kakarot'  PASSWORD EXPIRE INTERVAL 30 DAY;
+GRANT ALL ON movielens.* TO 'piotr'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'piotr'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'piotr'@'%';
 
-GRANT ALL ON movielens.* TO 'nacho'@'%';
-GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'nacho'@'%';
-GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'nacho'@'%';
+CREATE USER 'rohit'@'%' IDENTIFIED WITH mysql_native_password BY 'rohit-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
+
+GRANT ALL ON movielens.* TO 'rohit'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'rohit'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'rohit'@'%';
+
+CREATE USER 'victor'@'%' IDENTIFIED WITH mysql_native_password BY 'victor-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
+
+GRANT ALL ON movielens.* TO 'victor'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'victor'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'victor'@'%';
+
+CREATE USER 'ray'@'%' IDENTIFIED WITH mysql_native_password BY 'ray-secret'  PASSWORD EXPIRE INTERVAL 30 DAY;
+
+GRANT ALL ON movielens.* TO 'ray'@'%';
+GRANT SELECT, EVENT, EXECUTE, LOCK TABLES ON movielens.* TO 'ray'@'%';
+GRANT RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'ray'@'%';

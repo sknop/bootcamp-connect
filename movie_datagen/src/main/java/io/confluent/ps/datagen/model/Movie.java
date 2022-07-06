@@ -32,6 +32,6 @@ public class Movie {
     }
 
     public static String getGenreMapTable() {
-        return "movies_to_genres";
+        return "movielens.movies_to_genres";
     }
 }

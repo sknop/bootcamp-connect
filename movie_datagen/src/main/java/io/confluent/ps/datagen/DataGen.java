@@ -10,11 +10,16 @@ public class DataGen {
 
     final private double initialPercent;
     final private String databaseUrl;
+
+    final private String username;
+    final private String password;
     private Store store;
 
-    public DataGen(double initialPercent, String databaseUrl) {
+    public DataGen(double initialPercent, String databaseUrl, String username, String password) {
         this.initialPercent = initialPercent;
         this.databaseUrl = databaseUrl;
+        this.username = username;
+        this.password = password;
     }
 
     public void run(String dir) throws IOException, SQLException, InterruptedException {
@@ -22,7 +27,7 @@ public class DataGen {
         var movies = parser.loadFile(dir + "/movies.csv");
         var tags = parser.loadTags(dir + "/tags.csv");
 
-        store = Store.build(databaseUrl);
+        store = Store.build(databaseUrl, username, password);
 
         var initialLoadCount = (int)Math.round(movies.size()*initialPercent);
         System.out.println("Loading as initial load: "+initialLoadCount+" movies, rest will be used as future delayed inserts");
@@ -41,16 +46,17 @@ public class DataGen {
     public static void main(String[] args) throws Exception {
         Logger.setGlobalLogLevel(Level.DEBUG);
 
-        if (args.length < 2) {
-            System.err.println("Usage: DataGen <database-url> <data-set-base-dir>");
+        if (args.length < 4) {
+            System.err.println("Usage: DataGen <database-url> <data-set-base-dir> <username> <password>");
             System.exit(1);
         }
 
         String databaseUrl = args[0];
-
         String baseDir = args[1];
+        String username = args[2];
+        String password = args[3];
 
-        DataGen dataGen = new DataGen(0.5, databaseUrl);
+        DataGen dataGen = new DataGen(0.5, databaseUrl, username, password);
         dataGen.run(baseDir);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

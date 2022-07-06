@@ -33,14 +33,14 @@ public class Store {
         this.connections = connections;
     }
 
-    public static Store build(String databaseUrl) throws SQLException {
+    public static Store build(String databaseUrl, String username, String password) throws SQLException {
         DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
         Connection[] connections = new Connection[] {
-                DriverManager.getConnection(databaseUrl),
-                DriverManager.getConnection(databaseUrl),
-                DriverManager.getConnection(databaseUrl)
+                DriverManager.getConnection(databaseUrl, username, password),
+                DriverManager.getConnection(databaseUrl, username, password),
+                DriverManager.getConnection(databaseUrl, username, password)
         };
-        return new Store(connections);
+         return new Store(connections);
 
     }
 

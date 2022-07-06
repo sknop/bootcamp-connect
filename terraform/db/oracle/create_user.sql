@@ -1,13 +1,13 @@
-create user sven identified by songoan;
-create user christoph identified by kakarot;
-create user jorge identified by kakarot;
-create user kirill identified by kakarot;
-create user laurent identified by kakarot;
-create user oscar identified by kakarot;
-create user benedikt identified by kakarot;
-create user damien identified by kakarot;
-create user jakub identified by kakarot;
-create user nacho identified by kakarot;
+create user sven identified by "sven-secret";
+create user dennis identified by "dennis-secret";
+create user alberto identified by "alberto-secret";
+create user marcel identified by "marcelo-secret";
+create user nakul identified by "nakul-secret";
+create user peter identified by "peter-secret";
+create user ray identified by "ray-secret";
+create user rohit identified by "rohi-secret";
+create user victor identified by "victor-secret";
+create user amy identified by "amy-secret";
 
 
   GRANT CREATE TABLE TO sven;
@@ -21,96 +21,96 @@ create user nacho identified by kakarot;
   GRANT SELECT ON movielens.genres TO sven;
 
 
-  GRANT CREATE TABLE TO christoph;
-  GRANT CREATE SESSION TO christoph;
+  GRANT CREATE TABLE TO dennis;
+  GRANT CREATE SESSION TO dennis;
 
-  GRANT UNLIMITED TABLESPACE TO christoph;
+  GRANT UNLIMITED TABLESPACE TO dennis;
 
-  GRANT SELECT ON movielens.movies TO christoph;
-  GRANT SELECT ON movielens.movies_to_genres TO christoph;
-  GRANT SELECT ON movielens.tags TO christoph;
-  GRANT SELECT ON movielens.genres TO christoph;
-
-
-  GRANT CREATE TABLE TO jorge;
-  GRANT CREATE SESSION TO jorge;
-
-  GRANT UNLIMITED TABLESPACE TO jorge;
-
-  GRANT SELECT ON movielens.movies TO jorge;
-  GRANT SELECT ON movielens.movies_to_genres TO jorge;
-  GRANT SELECT ON movielens.tags TO jorge;
-  GRANT SELECT ON movielens.genres TO jorge;
+  GRANT SELECT ON movielens.movies TO dennis;
+  GRANT SELECT ON movielens.movies_to_genres TO dennis;
+  GRANT SELECT ON movielens.tags TO dennis;
+  GRANT SELECT ON movielens.genres TO dennis;
 
 
-  GRANT CREATE TABLE TO kirill;
-  GRANT CREATE SESSION TO kirill;
+  GRANT CREATE TABLE TO alberto;
+  GRANT CREATE SESSION TO alberto;
 
-  GRANT UNLIMITED TABLESPACE TO kirill;
+  GRANT UNLIMITED TABLESPACE TO alberto;
 
-  GRANT SELECT ON movielens.movies TO kirill;
-  GRANT SELECT ON movielens.movies_to_genres TO kirill;
-  GRANT SELECT ON movielens.tags TO kirill;
-  GRANT SELECT ON movielens.genres TO kirill;
-
-
-  GRANT CREATE TABLE TO laurent;
-  GRANT CREATE SESSION TO laurent;
-
-  GRANT UNLIMITED TABLESPACE TO laurent;
-
-  GRANT SELECT ON movielens.movies TO laurent;
-  GRANT SELECT ON movielens.movies_to_genres TO laurent;
-  GRANT SELECT ON movielens.tags TO laurent;
-  GRANT SELECT ON movielens.genres TO laurent;
-
-  GRANT CREATE TABLE TO oscar;
-  GRANT CREATE SESSION TO oscar;
-
-  GRANT UNLIMITED TABLESPACE TO oscar;
-
-  GRANT SELECT ON movielens.movies TO oscar;
-  GRANT SELECT ON movielens.movies_to_genres TO oscar;
-  GRANT SELECT ON movielens.tags TO oscar;
-  GRANT SELECT ON movielens.genres TO oscar;
-
-  GRANT CREATE TABLE TO benedikt;
-  GRANT CREATE SESSION TO benedikt;
-
-  GRANT UNLIMITED TABLESPACE TO benedikt;
-
-  GRANT SELECT ON movielens.movies TO benedikt;
-  GRANT SELECT ON movielens.movies_to_genres TO benedikt;
-  GRANT SELECT ON movielens.tags TO benedikt;
-  GRANT SELECT ON movielens.genres TO benedikt;
-
-  GRANT CREATE TABLE TO damien;
-  GRANT CREATE SESSION TO damien;
-
-  GRANT UNLIMITED TABLESPACE TO damien;
-
-  GRANT SELECT ON movielens.movies TO damien;
-  GRANT SELECT ON movielens.movies_to_genres TO damien;
-  GRANT SELECT ON movielens.tags TO damien;
-  GRANT SELECT ON movielens.genres TO damien;
+  GRANT SELECT ON movielens.movies TO alberto;
+  GRANT SELECT ON movielens.movies_to_genres TO alberto;
+  GRANT SELECT ON movielens.tags TO alberto;
+  GRANT SELECT ON movielens.genres TO alberto;
 
 
-  GRANT CREATE TABLE TO jakub;
-  GRANT CREATE SESSION TO jakub;
+  GRANT CREATE TABLE TO marcel;
+  GRANT CREATE SESSION TO marcel;
 
-  GRANT UNLIMITED TABLESPACE TO jakub;
+  GRANT UNLIMITED TABLESPACE TO marcel;
 
-  GRANT SELECT ON movielens.movies TO jakub;
-  GRANT SELECT ON movielens.movies_to_genres TO jakub;
-  GRANT SELECT ON movielens.tags TO jakub;
-  GRANT SELECT ON movielens.genres TO jakub;
+  GRANT SELECT ON movielens.movies TO marcel;
+  GRANT SELECT ON movielens.movies_to_genres TO marcel;
+  GRANT SELECT ON movielens.tags TO marcel;
+  GRANT SELECT ON movielens.genres TO marcel;
 
-  GRANT CREATE TABLE TO nacho;
-  GRANT CREATE SESSION TO nacho;
 
-  GRANT UNLIMITED TABLESPACE TO nacho;
+  GRANT CREATE TABLE TO nakul;
+  GRANT CREATE SESSION TO nakul;
 
-  GRANT SELECT ON movielens.movies TO nacho;
-  GRANT SELECT ON movielens.movies_to_genres TO nacho;
-  GRANT SELECT ON movielens.tags TO nacho;
-  GRANT SELECT ON movielens.genres TO nacho;
+  GRANT UNLIMITED TABLESPACE TO nakul;
+
+  GRANT SELECT ON movielens.movies TO nakul;
+  GRANT SELECT ON movielens.movies_to_genres TO nakul;
+  GRANT SELECT ON movielens.tags TO nakul;
+  GRANT SELECT ON movielens.genres TO nakul;
+
+  GRANT CREATE TABLE TO peter;
+  GRANT CREATE SESSION TO peter;
+
+  GRANT UNLIMITED TABLESPACE TO peter;
+
+  GRANT SELECT ON movielens.movies TO peter;
+  GRANT SELECT ON movielens.movies_to_genres TO peter;
+  GRANT SELECT ON movielens.tags TO peter;
+  GRANT SELECT ON movielens.genres TO peter;
+
+  GRANT CREATE TABLE TO ray;
+  GRANT CREATE SESSION TO ray;
+
+  GRANT UNLIMITED TABLESPACE TO ray;
+
+  GRANT SELECT ON movielens.movies TO ray;
+  GRANT SELECT ON movielens.movies_to_genres TO ray;
+  GRANT SELECT ON movielens.tags TO ray;
+  GRANT SELECT ON movielens.genres TO ray;
+
+  GRANT CREATE TABLE TO rohit;
+  GRANT CREATE SESSION TO rohit;
+
+  GRANT UNLIMITED TABLESPACE TO rohit;
+
+  GRANT SELECT ON movielens.movies TO rohit;
+  GRANT SELECT ON movielens.movies_to_genres TO rohit;
+  GRANT SELECT ON movielens.tags TO rohit;
+  GRANT SELECT ON movielens.genres TO rohit;
+
+
+  GRANT CREATE TABLE TO victor;
+  GRANT CREATE SESSION TO victor;
+
+  GRANT UNLIMITED TABLESPACE TO victor;
+
+  GRANT SELECT ON movielens.movies TO victor;
+  GRANT SELECT ON movielens.movies_to_genres TO victor;
+  GRANT SELECT ON movielens.tags TO victor;
+  GRANT SELECT ON movielens.genres TO victor;
+
+GRANT CREATE TABLE TO amy;
+GRANT CREATE SESSION TO amy;
+
+GRANT UNLIMITED TABLESPACE TO amy;
+
+GRANT SELECT ON movielens.movies TO amy;
+GRANT SELECT ON movielens.movies_to_genres TO amy;
+GRANT SELECT ON movielens.tags TO amy;
+GRANT SELECT ON movielens.genres TO amy;
