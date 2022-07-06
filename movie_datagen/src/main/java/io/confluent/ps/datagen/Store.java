@@ -54,7 +54,7 @@ public class Store {
 
     public void close() throws Exception {
         threadPool.shutdown();
-        threadPool.awaitTermination(2, TimeUnit.MINUTES);
+        boolean terminated = threadPool.awaitTermination(2, TimeUnit.MINUTES);
         for(Connection con : connections) {
             con.close();
         }
@@ -63,14 +63,11 @@ public class Store {
     public Callable<String> loadTags(List<Tag> tags) {
         return () -> {
             ListUtils.partition(tags, 500)
-                    .forEach(new Consumer<List<Tag>>() {
-                        @Override
-                        public void accept(List<Tag> tags) {
-                            try {
-                                movieStore.batchStoreTags(tags);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    .forEach(tags1 -> {
+                        try {
+                            movieStore.batchStoreTags(tags1);
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     });
             latch.countDown();
@@ -90,14 +87,11 @@ public class Store {
 
                 ListUtils
                         .partition(movies, 100)
-                        .forEach(new Consumer<List<Map.Entry<Movie, List<Genre>>>>() {
-                            @Override
-                            public void accept(List<Map.Entry<Movie, List<Genre>>> entries) {
-                                try {
-                                    movieStore.batchStore(entries);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
+                        .forEach(entries -> {
+                            try {
+                                movieStore.batchStore(entries);
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         });
 
