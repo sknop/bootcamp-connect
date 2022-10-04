@@ -34,18 +34,18 @@ public class MovieDao {
             connection.setAutoCommit(false);
             String table = Movie.getTable();
             String sql = "insert into " + table + " (id, title, year, created_at, updated_at) values (?,?,?,?,?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            for (Movie movie : movies) {
-                ps.setLong(1, movie.getId());
-                ps.setString(2, movie.getTitle());
-                ps.setString(3, movie.getYear());
-                ps.setTimestamp(4, movie.getCreatedAt());
-                ps.setTimestamp(5, movie.getUpdatedAt());
-                ps.addBatch();
+            try(PreparedStatement ps = connection.prepareStatement(sql)) {
+                for (Movie movie : movies) {
+                    ps.setLong(1, movie.getId());
+                    ps.setString(2, movie.getTitle());
+                    ps.setString(3, movie.getYear());
+                    ps.setTimestamp(4, movie.getCreatedAt());
+                    ps.setTimestamp(5, movie.getUpdatedAt());
+                    ps.addBatch();
+                }
+                ps.executeBatch();
+                connection.commit();
             }
-            ps.executeBatch();
-            connection.commit();
-            ps.close();
         } finally {
             connection.setAutoCommit(true);
         }
@@ -53,26 +53,27 @@ public class MovieDao {
 
     @SneakyThrows
     private boolean idExist(Long id, String table) {
-        Statement stm = connection.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT id from "+table+" where id="+id);
-        boolean isExist = rs.next();
-        rs.close();
-        return isExist;
+        try(Statement stm = connection.createStatement()) {
+            try(ResultSet rs = stm.executeQuery("SELECT id from " + table + " where id=" + id)) {
+                return rs.next();
+            }
+        }
     }
 
     public Movie queryForId(long id) throws SQLException {
         String table = Movie.getTable();
-        Statement stm = connection.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT * from "+table+" where id="+id);
-        if (rs.next()) {
-            Movie movie = new Movie();
-            movie.setId(rs.getLong("id"));
-            movie.setTitle(rs.getString("title"));
-            movie.setYear(rs.getString("year"));
-            movie.setCreatedAt(rs.getTimestamp("created_at"));
-            movie.setUpdatedAt(rs.getTimestamp("updated_at"));
-            rs.close();
-            return movie;
+        try (Statement stm = connection.createStatement()) {
+            try (ResultSet rs = stm.executeQuery("SELECT * from " + table + " where id=" + id)) {
+                if (rs.next()) {
+                    Movie movie = new Movie();
+                    movie.setId(rs.getLong("id"));
+                    movie.setTitle(rs.getString("title"));
+                    movie.setYear(rs.getString("year"));
+                    movie.setCreatedAt(rs.getTimestamp("created_at"));
+                    movie.setUpdatedAt(rs.getTimestamp("updated_at"));
+                    return movie;
+                }
+            }
         }
         return null;
     }
@@ -120,6 +121,7 @@ public class MovieDao {
             }
             ps.executeBatch();
             connection.commit();
+            ps.close();
         } finally {
             connection.setAutoCommit(true);
         }
