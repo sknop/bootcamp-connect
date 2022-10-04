@@ -96,14 +96,15 @@ public class MovieDao {
     }
 
     public long getLatestId() throws SQLException {
-        Statement stm = connection.createStatement();
-        ResultSet rs = stm.executeQuery("SELECT MAX(id) as max from "+Movie.getTable());
-        long latestId = -1;
-        if (rs.next()) {
-            latestId = rs.getInt("max");
+        try(Statement stm = connection.createStatement()) {
+            try(ResultSet rs = stm.executeQuery("SELECT MAX(id) as max from " + Movie.getTable())) {
+                long latestId = -1;
+                if (rs.next()) {
+                    latestId = rs.getInt("max");
+                }
+                return latestId;
+            }
         }
-        rs.close();
-        return latestId;
     }
 
     public void createGenreMap(List<MovieGenre> movieGenresMap) throws SQLException {
