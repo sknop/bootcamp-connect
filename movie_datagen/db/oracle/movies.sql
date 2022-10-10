@@ -12,6 +12,10 @@ GRANT SELECT ON movielens.movies_to_genres TO admin;
 GRANT SELECT ON movielens.tags TO admin;
 GRANT SELECT ON movielens.genres TO admin;
 
+GRANT CREATE USER, DROP USER to admin;
+GRANT CREATE TABLE, CREATE SESSION, CREATE SYNONYM,
+    CREATE VIEW to admin;
+
 DROP TABLE movielens.movies_to_genres;
 DROP TABLE movielens.tags;
 DROP TABLE movielens.movies;
