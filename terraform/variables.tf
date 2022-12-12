@@ -1,3 +1,7 @@
+variable "region" {
+  type = string
+}
+
 variable "key-name" {
   type = string
 }

@@ -322,3 +322,17 @@ BEGIN
     rdsadmin.rdsadmin_util.grant_sys_object('V_$INSTANCE', 'PIERPAOLO', 'SELECT');
     rdsadmin.rdsadmin_util.alter_supplemental_logging(p_action => 'ADD');
 end;
+
+create or replace procedure add_user is
+begin
+    execute immediate 'create user amy identified by "amy-secret"';
+    execute immediate 'GRANT CREATE TABLE TO amy';
+end;
+/
+
+begin
+    add_user;
+end;
+/
+
+drop user amy;
