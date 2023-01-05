@@ -1,0 +1,72 @@
+---
+# tasks file for mysql
+- name: Set hostname
+  hostname:
+    name: samba.{{domain_name}}
+
+- name: Show host's IP
+  debug:
+    # msg: "{{ hostvars['mysql'] }}"
+    msg: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
+
+- name: Update /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    insertafter: '127.0.0.1 localhost'
+    line: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}\tmysql mysql.{{domain_name}}"
+    state: present
+
+- name: Install packages
+  package:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  loop:
+    - mysql-server
+    - mysql-client
+    - python3-mysqldb
+    - libmysqlclient-dev
+
+- name: Start and enable MySQL service
+  service:
+    name: mysql
+    state: started
+    enabled: yes
+
+- name: Create MySQL User (admin)
+  mysql_user:
+    name: "{{db_user}}"
+    password: "{{db_pass}}"
+    priv: '*.*:ALL'
+    host: '%'
+    state: present
+
+- name: Create movielens database
+  mysql_db:
+    name: "movielens"
+    state: present
+
+- name: Enable remote login to mysql
+  lineinfile:
+    path: /etc/mysql/mysql.conf.d/mysqld.cnf
+    regexp: '^bind-address'
+    line: 'bind-address = 0.0.0.0'
+    backup: yes
+  notify:
+    - Restart mysql
+
+- name: Copy movies.sql to /tmp/
+  copy:
+    src: movies.sql
+    dest: /tmp/movies.sql
+
+- name: Create tables
+  mysql_db:
+    name: "movielens"
+    state: import
+    target: /tmp/movies.sql
+    login_user: "{{db_user}}"
+    login_password: "{{db_pass}}"
+
+
+
