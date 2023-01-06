@@ -1,0 +1,16 @@
+[servers]
+mysql ansible_host=ec2-54-72-241-109.eu-west-1.compute.amazonaws.com
+oracle ansible_host=ec2-63-34-165-73.eu-west-1.compute.amazonaws.com
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_connection=ssh
+ansible_user=ubuntu
+ansible_become=true
+ansible_ssh_private_key_file=/Users/Sven/.ssh/bootcamp.pem
+
+# Set the desired domain here
+domain_name=bootcamp-emea.confluent.io
+
+db_user=admin
+db_pass=adminsecret

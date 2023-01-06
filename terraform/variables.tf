@@ -2,8 +2,27 @@ variable "region" {
   type = string
 }
 
+variable "vpc-id" {
+  type = string
+}
+
 variable "key-name" {
   type = string
+}
+
+variable "mysql-instance-type" {
+  type = string
+  default = "m5.large"
+}
+
+variable "oracle-instance-type" {
+  type = string
+  default = "m5.large"
+}
+
+variable "elastic-instance-type" {
+  type = string
+  default = "m5.large"
 }
 
 variable subnet-ids {
@@ -29,11 +48,6 @@ variable owner-email {
 }
 
 variable hosted-zone-id {
-  type = string
-}
-
-variable "elastic-instance-type" {
-  default = "t3.2xlarge"
   type = string
 }
 

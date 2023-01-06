@@ -1,6 +1,6 @@
 output "mysql-hostname" {
   description = "Hostname of the MySQL Instance"
-  value = aws_db_instance.mysql.address
+  value = aws_instance.mysql.public_dns
 }
 
 output "oracle-hostname" {
@@ -10,10 +10,10 @@ output "oracle-hostname" {
 
 output "elasticsearch-public-ips" {
   description = "Where we can find the elastic search instances"
-  value = aws_instance.elasticsearch.*.public_dns
+  value = aws_instance.elastic.*.public_dns
 }
 
 output "elasticsearch-private-ips" {
   description = "Where we can find the elastic search instances"
-  value = aws_instance.elasticsearch.*.private_dns
+  value = aws_instance.elastic.*.private_dns
 }

@@ -20,6 +20,7 @@ DROP TABLE movielens.movies_to_genres;
 DROP TABLE movielens.tags;
 DROP TABLE movielens.movies;
 DROP TABLE movielens.genres;
+DROP TABLE movielens.ratings;
 DROP SEQUENCE MOVIES_TO_GENRES_ID_SEQ;
 
 CREATE TABLE movielens.movies (
@@ -54,9 +55,16 @@ CREATE TABLE movielens.tags (
   movie_id NUMBER,
   tag VARCHAR(256) not null,
   timestamp  TIMESTAMP(6) NOT NULL,
-  CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id, tag)
+  CONSTRAINT PK_TAGS PRIMARY KEY (user_id,movie_id, tag)
 );
 
+CREATE TABLE movielens.ratings (
+    user_id NUMBER NOT NULL,
+    movie_id NUMBER NOT NULL,
+    rating  DECIMAL(2,1) NOT NULL,
+    timestamp  TIMESTAMP(6) NOT NULL,
+    CONSTRAINT PK_RATINGS PRIMARY KEY (user_id,movie_id, rating)
+);
 
 ALTER USER admin quota unlimited on USERS;
 insert into movielens.movies values (1, 'admin', 2021, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)

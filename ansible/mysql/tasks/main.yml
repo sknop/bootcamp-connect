@@ -37,7 +37,7 @@
   mysql_user:
     name: "{{db_user}}"
     password: "{{db_pass}}"
-    priv: '*.*:ALL'
+    priv: '*.*:ALL,GRANT'
     host: '%'
     state: present
 

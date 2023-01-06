@@ -1,3 +1,5 @@
 .idea/
 target/
 *.iml
+/db/*_generated.sql
+/db/users.txt

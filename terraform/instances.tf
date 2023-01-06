@@ -39,44 +39,6 @@ resource "aws_route53_record" "mysql" {
   records = [aws_instance.mysql.private_ip]
 }
 
-// Oracle instance
-
-resource "aws_instance" "oracle" {
-  ami     = data.aws_ami.ubuntu.id
-  instance_type = var.oracle-instance-type
-  key_name = var.key-name
-
-  root_block_device {
-    volume_size = 50
-  }
-
-  tags = {
-    Name = "oracle"
-    description = "Oracle Node - Managed by Terraform"
-    Schedule = "zookeeper-mon-8am-fri-6pm"
-  }
-
-  subnet_id = var.subnet-ids[1]
-  availability_zone = var.availability-zones[1]
-  vpc_security_group_ids = var.security-groups
-  associate_public_ip_address = true
-}
-
-resource "aws_eip" "oracle" {
-  instance  = aws_instance.oracle.id
-  vpc       = true
-}
-
-resource "aws_route53_record" "oracle" {
-  count = 1
-  allow_overwrite = true
-  zone_id = var.hosted-zone-id
-  name = "oracle"
-  type = "A"
-  ttl = "300"
-  records = [aws_instance.oracle.private_ip]
-}
-
 // ElasticSearch instance
 
 resource "aws_instance" "elastic" {
