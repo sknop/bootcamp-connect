@@ -1,6 +1,5 @@
 package io.confluent.ps.datagen;
 
-import com.j256.ormlite.support.ConnectionSource;
 import io.confluent.ps.datagen.dao.GenresDao;
 import io.confluent.ps.datagen.dao.MovieDao;
 import io.confluent.ps.datagen.dao.TagDao;
@@ -8,7 +7,6 @@ import io.confluent.ps.datagen.model.Genre;
 import io.confluent.ps.datagen.model.Movie;
 import io.confluent.ps.datagen.model.MovieGenre;
 import io.confluent.ps.datagen.model.Tag;
-import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -26,8 +24,6 @@ public class MovieStore {
     private final MovieDao movieDao;
     private final GenresDao genreDao;
 
-
-    @SneakyThrows
     public MovieStore(Connection[] connections) {
         this.genreDao = new GenresDao(connections[0]);
         this.tagDao = new TagDao(connections[1]);
@@ -46,6 +42,7 @@ public class MovieStore {
     public void batchStoreTags(List<Tag> tags) throws Exception {
         tagDao.create(tags);
     }
+
     public void batchStoreGenres(List<Genre> genres) throws Exception {
         var uniques = genres.stream()
                 .distinct()
@@ -54,19 +51,15 @@ public class MovieStore {
     }
 
     public void batchStore(List<Map.Entry<Movie, List<Genre>>> entries) throws Exception {
-
-
         var movies = entries.stream()
                 .map(Map.Entry::getKey)
-                .map(movie -> {
+                .peek(movie -> {
                     var createTime = new Timestamp(System.currentTimeMillis());
                     movie.setCreatedAt(createTime);
                     movie.setUpdatedAt(createTime);
-                    return movie;
                 })
                 .collect(Collectors.toList());
         movieDao.create(movies);
-
 
         var movieGenresMap = new ArrayList<MovieGenre>();
 
@@ -87,7 +80,7 @@ public class MovieStore {
             if (movie != null) {
                 var instant = Instant.now().truncatedTo(ChronoUnit.MICROS);
                 movie.setUpdatedAt(Timestamp.from(instant));
-                System.out.println("updating movie:" + movie);
+                System.out.println("Movies: updated '" + movie + "'");
                 movieDao.update(movie);
             }
         }

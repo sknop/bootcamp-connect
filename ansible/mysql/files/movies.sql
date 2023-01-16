@@ -34,16 +34,16 @@ CREATE TABLE ratings (
   movie_id BIGINT UNSIGNED not null,
   rating  DECIMAL(2,1) not null,
   timestamp  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id, rating)
+  CONSTRAINT pk_Ratings PRIMARY KEY (user_id, movie_id, rating)
 );
 
 /*userId,movieId,tag,timestamp*/
 CREATE TABLE tags (
    user_id BIGINT UNSIGNED not null,
    movie_id BIGINT UNSIGNED not null,
-   tag VARCHAR(50) not null,
+   tag VARCHAR(256) not null,
    timestamp  TIMESTAMP(6) NOT NULL,
-   CONSTRAINT pk_Ratings PRIMARY KEY (user_id,movie_id, tag)
+   CONSTRAINT pk_tags PRIMARY KEY (user_id, movie_id, tag)
 );
 
 DELIMITER $$

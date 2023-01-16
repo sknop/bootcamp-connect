@@ -1,7 +1,23 @@
+output "mysql-hostname-eip" {
+  description = "Hostname of the MySQL Instance"
+  value = aws_eip.mysql.public_dns
+}
+
+output "postgres-hostname-eip" {
+  description = "Hostname of the Postgres Instance"
+  value = aws_eip.postgres.public_dns
+}
+
 output "mysql-hostname" {
   description = "Hostname of the MySQL Instance"
   value = aws_instance.mysql.public_dns
 }
+
+output "postgres-hostname" {
+  description = "Hostname of the Postgres Instance"
+  value = aws_instance.postgres.public_dns
+}
+
 
 output "oracle-hostname" {
   description = "Hostname of the Oracle Instance"

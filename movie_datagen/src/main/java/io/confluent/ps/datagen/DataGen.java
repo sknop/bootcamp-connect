@@ -1,7 +1,7 @@
 package io.confluent.ps.datagen;
 
-import com.j256.ormlite.logger.Level;
-import com.j256.ormlite.logger.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,10 +33,9 @@ public class DataGen {
         System.out.println("Loading as initial load: "+initialLoadCount+" movies, rest will be used as future delayed inserts");
 
         long time = System.currentTimeMillis();
-        store.process(movies.subList(0, initialLoadCount), tags.subList(0, 5000));
+        store.process(movies.subList(0, initialLoadCount), tags.subList(0, 500000));
         long all = System.currentTimeMillis()-time;
         System.out.println("total: "+all);
-
     }
 
     public void close() throws Exception {
@@ -44,7 +43,7 @@ public class DataGen {
     }
 
     public static void main(String[] args) throws Exception {
-        Logger.setGlobalLogLevel(Level.DEBUG);
+        Logger.getGlobal().setLevel(Level.INFO);
 
         if (args.length < 4) {
             System.err.println("Usage: DataGen <database-url> <data-set-base-dir> <username> <password>");
@@ -56,7 +55,7 @@ public class DataGen {
         String username = args[2];
         String password = args[3];
 
-        DataGen dataGen = new DataGen(0.5, databaseUrl, username, password);
+        DataGen dataGen = new DataGen(1.0, databaseUrl, username, password);
         dataGen.run(baseDir);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

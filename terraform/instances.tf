@@ -39,6 +39,44 @@ resource "aws_route53_record" "mysql" {
   records = [aws_instance.mysql.private_ip]
 }
 
+// PostgreSQL instance
+
+resource "aws_instance" "postgres" {
+  ami     = data.aws_ami.ubuntu.id
+  instance_type = var.mysql-instance-type
+  key_name = var.key-name
+
+  root_block_device {
+    volume_size = 50
+  }
+
+  tags = {
+    Name = "postgres"
+    description = "PostgreSQL Node - Managed by Terraform"
+    Schedule = "zookeeper-mon-8am-fri-6pm"
+  }
+
+  subnet_id = var.subnet-ids[1]
+  availability_zone = var.availability-zones[1]
+  vpc_security_group_ids = var.security-groups
+  associate_public_ip_address = true
+}
+
+resource "aws_eip" "postgres" {
+  instance  = aws_instance.postgres.id
+  vpc       = true
+}
+
+resource "aws_route53_record" "postgres" {
+  count = 1
+  allow_overwrite = true
+  zone_id = var.hosted-zone-id
+  name = "postgres"
+  type = "A"
+  ttl = "300"
+  records = [aws_instance.postgres.private_ip]
+}
+
 // ElasticSearch instance
 
 resource "aws_instance" "elastic" {

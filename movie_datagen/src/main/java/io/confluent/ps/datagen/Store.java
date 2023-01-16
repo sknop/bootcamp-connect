@@ -16,7 +16,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class Store {
@@ -54,7 +54,7 @@ public class Store {
 
     public void close() throws Exception {
         threadPool.shutdown();
-        boolean terminated = threadPool.awaitTermination(2, TimeUnit.MINUTES);
+        threadPool.awaitTermination(2, TimeUnit.MINUTES);
         for(Connection con : connections) {
             con.close();
         }
@@ -62,10 +62,15 @@ public class Store {
 
     public Callable<String> loadTags(List<Tag> tags) {
         return () -> {
+            AtomicInteger count = new AtomicInteger();
+
             ListUtils.partition(tags, 500)
                     .forEach(tags1 -> {
                         try {
+                            System.out.println("Tag: inserting " + tags1.size());
                             movieStore.batchStoreTags(tags1);
+                            count.addAndGet(tags1.size());
+                            System.out.println("Tag: inserted " + tags1.size() + ". Total = " + count);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -85,11 +90,15 @@ public class Store {
 
                 movieStore.batchStoreGenres(genres);
 
+                AtomicInteger total = new AtomicInteger();
                 ListUtils
                         .partition(movies, 100)
                         .forEach(entries -> {
                             try {
+                                System.out.println("Movies: Inserting " + entries.size());
                                 movieStore.batchStore(entries);
+                                total.addAndGet(entries.size());
+                                System.out.println("Movies: Inserted " + entries.size() + ". Total = " + total);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -108,7 +117,7 @@ public class Store {
     public Runnable doUpdates() {
         return () -> {
             try {
-                System.out.println("Doing an update");
+                System.out.println("Movies: doing an update");
                 movieStore.doUpdate();
             } catch (Exception ex) {
                 ex.printStackTrace();

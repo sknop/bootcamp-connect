@@ -4,11 +4,7 @@ import io.confluent.ps.datagen.model.Movie;
 import io.confluent.ps.datagen.model.MovieGenre;
 import lombok.SneakyThrows;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,7 +17,7 @@ public class MovieDao {
     }
 
     public void createOrUpdate(Movie movie) throws SQLException {
-        if (idExist(movie.getId(), movie.getTable())) {
+        if (idExist(movie.getId(), Movie.getTable())) {
             update(movie);
         } else {
             create(Collections.singletonList(movie));
