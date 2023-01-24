@@ -47,7 +47,7 @@ public class Store {
     public void process(List<Map.Entry<Movie, List<Genre>>> movies, List<Tag> tags) throws InterruptedException {
         threadPool.schedule(mainLoad(movies), 2, TimeUnit.SECONDS);
         threadPool.schedule(loadTags(tags), 1, TimeUnit.SECONDS);
-        threadPool.scheduleAtFixedRate(doUpdates(), 5, 5, TimeUnit.SECONDS);
+        threadPool.scheduleAtFixedRate(doUpdates(), 5, 1, TimeUnit.SECONDS);
         // wait for termination
         latch.await();
     }

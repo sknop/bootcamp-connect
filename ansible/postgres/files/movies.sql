@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS movies_to_genres;
-DROP TABLE IF EXISTS ratings;
-DROP TABLE IF EXISTS tags;
-DROP TABLE IF EXISTS movies;
-DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS movielens.movies_to_genres;
+DROP TABLE IF EXISTS movielens.ratings;
+DROP TABLE IF EXISTS movielens.tags;
+DROP TABLE IF EXISTS movielens.movies;
+DROP TABLE IF EXISTS movielens.genres;
 
 CREATE SCHEMA IF NOT EXISTS movielens;
 
