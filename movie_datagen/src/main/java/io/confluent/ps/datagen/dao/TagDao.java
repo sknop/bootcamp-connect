@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TagDao {
 
-    private Connection connection;
+    private final Connection connection;
 
     public TagDao(Connection connection) {
         this.connection = connection;
@@ -21,17 +21,17 @@ public class TagDao {
             connection.setAutoCommit(false);
             String table = Tag.getTable();
             String sql = "insert into " + table + " (user_id, movie_id, tag, timestamp) values (?,?,?,?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            for (Tag tag : tags) {
-                ps.setLong(1, tag.getUserId());
-                ps.setLong(2, tag.getMovieId());
-                ps.setString(3, tag.getTag());
-                ps.setTimestamp(4, tag.getTimestamp());
-                ps.addBatch();
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                for (Tag tag : tags) {
+                    ps.setLong(1, tag.getUserId());
+                    ps.setLong(2, tag.getMovieId());
+                    ps.setString(3, tag.getTag());
+                    ps.setTimestamp(4, tag.getTimestamp());
+                    ps.addBatch();
+                }
+                ps.executeBatch();
+                connection.commit();
             }
-            ps.executeBatch();
-            connection.commit();
-            ps.close();
         } finally {
             connection.setAutoCommit(true);
         }

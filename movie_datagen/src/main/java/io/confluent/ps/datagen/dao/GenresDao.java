@@ -1,9 +1,6 @@
 package io.confluent.ps.datagen.dao;
 
 import io.confluent.ps.datagen.model.Genre;
-import io.confluent.ps.datagen.model.Movie;
-import lombok.SneakyThrows;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,7 +11,7 @@ import java.util.List;
 
 public class GenresDao {
 
-    private Connection connection;
+    private final Connection connection;
 
     public GenresDao(Connection connection) {
         this.connection = connection;
@@ -32,15 +29,15 @@ public class GenresDao {
             connection.setAutoCommit(false);
             String table = Genre.getTable();
             String sql = "insert into " + table + " (id, name) values (?,?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
-            for (Genre genre : genres) {
-                ps.setInt(1, genre.getId());
-                ps.setString(2, genre.getName());
-                ps.addBatch();
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
+                for (Genre genre : genres) {
+                    ps.setInt(1, genre.getId());
+                    ps.setString(2, genre.getName());
+                    ps.addBatch();
+                }
+                ps.executeBatch();
+                connection.commit();
             }
-            ps.executeBatch();
-            connection.commit();
-            ps.close();
         } finally {
             connection.setAutoCommit(true);
         }
@@ -49,9 +46,6 @@ public class GenresDao {
     private boolean idExist(int id, String table) throws SQLException {
         Statement stm = connection.createStatement();
         ResultSet rs = stm.executeQuery("SELECT id from "+table+" where id="+id);
-        if (rs.next()) {
-            return true;
-        }
-        return false;
+        return rs.next();
     }
 }
