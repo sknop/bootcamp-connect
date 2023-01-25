@@ -2,11 +2,14 @@ CREATE USER {{user}} IDENTIFIED BY "{{user}}-secret";
 GRANT CREATE TABLE TO {{user}};
 GRANT CREATE SESSION TO {{user}};
 GRANT UNLIMITED TABLESPACE TO {{user}};
+GRANT SELECT ON DBA_TABLESPACES to {{user}};
+GRANT LOGMINING to {{user}};
 
 GRANT SELECT ON movielens.movies TO {{user}};
 GRANT SELECT ON movielens.movies_to_genres TO {{user}};
 GRANT SELECT ON movielens.tags TO {{user}};
 GRANT SELECT ON movielens.genres TO {{user}};
+GRANT SELECT ON movielens.ratings TO {{user}};
 
 GRANT FLASHBACK ANY TABLE TO {{user}};
 
@@ -40,6 +43,5 @@ BEGIN
     rdsadmin.rdsadmin_util.grant_sys_object('DBMS_LOGMNR', '{{user:upper}}', 'EXECUTE');
     rdsadmin.rdsadmin_util.grant_sys_object('DBA_TABLESPACES', '{{user:upper}}', 'SELECT');
     rdsadmin.rdsadmin_util.grant_sys_object('V_$INSTANCE', '{{user:upper}}', 'SELECT');
-    rdsadmin.rdsadmin_util.alter_supplemental_logging(p_action => 'ADD');
 end;
 

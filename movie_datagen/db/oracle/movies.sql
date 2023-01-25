@@ -67,4 +67,18 @@ CREATE TABLE movielens.ratings (
 );
 
 ALTER USER admin quota unlimited on USERS;
-insert into movielens.movies values (1, 'admin', 2021, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+
+begin
+    rdsadmin.rdsadmin_util.alter_supplemental_logging(
+            p_action => 'ADD');
+    rdsadmin.rdsadmin_util.set_configuration('archivelog retention hours',24);
+    rdsadmin.rdsadmin_util.alter_supplemental_logging('ADD','ALL');
+    rdsadmin.rdsadmin_util.alter_supplemental_logging('ADD');
+end;
+/
+
+ALTER TABLE movielens.movies ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE movielens.genres ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE movielens.movies_to_genres ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE movielens.ratings ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
+ALTER TABLE movielens.tags ADD SUPPLEMENTAL LOG DATA (ALL) COLUMNS;
