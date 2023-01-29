@@ -4,6 +4,12 @@ DROP TABLE IF EXISTS movielens.tags;
 DROP TABLE IF EXISTS movielens.movies;
 DROP TABLE IF EXISTS movielens.genres;
 
+DROP SCHEMA movielens;
+
+DROP ROLE debezium;
+DROP ROLE debezium_replication_group;
+DROP PUBLICATION movielens_publication;
+
 CREATE SCHEMA IF NOT EXISTS movielens;
 
 CREATE TABLE IF NOT EXISTS movielens.movies (
@@ -20,11 +26,11 @@ CREATE TABLE  IF NOT EXISTS movielens.genres (
 );
 
 CREATE TABLE  IF NOT EXISTS movielens.movies_to_genres (
-   id       BIGSERIAL PRIMARY KEY,
-   movie_id BIGINT,
-   genre_id   BIGINT,
-   FOREIGN KEY (movie_id)  REFERENCES movielens.movies(id),
-   FOREIGN KEY (genre_id)  REFERENCES movielens.genres(id)
+    id       BIGSERIAL PRIMARY KEY,
+    movie_id BIGINT,
+    genre_id BIGINT,
+    FOREIGN KEY (movie_id)  REFERENCES movielens.movies(id),
+    FOREIGN KEY (genre_id)  REFERENCES movielens.genres(id)
 );
 
 CREATE TABLE  IF NOT EXISTS movielens.ratings (
@@ -44,5 +50,16 @@ CREATE TABLE IF NOT EXISTS movielens.tags (
    CONSTRAINT pk_tags PRIMARY KEY (user_id, movie_id, tag)
 );
 
+CREATE ROLE debezium REPLICATION LOGIN;
+CREATE PUBLICATION movielens_publication FOR ALL TABLES;
+
+CREATE ROLE debezium_replication_group;
+GRANT debezium_replication_group to ADMIN;
+--
+-- ALTER TABLE movielens.genres OWNER to debezium_replication_group;
+-- ALTER TABLE movielens.movies OWNER to debezium_replication_group;
+-- ALTER TABLE movielens.movies_to_genres OWNER to debezium_replication_group;
+-- ALTER TABLE movielens.tags OWNER to debezium_replication_group;
+-- ALTER TABLE movielens.ratings OWNER to debezium_replication_group;
 
 
