@@ -53,8 +53,8 @@
     - { regexp: 'listen_addresses', line: "listen_addresses = '*'" }
     - { regexp: 'log_min_error_statement', line: 'log_min_error_statement = fatal' }
     - { regexp: 'wal_level', line : 'wal_level = logical' }
-    - { regexp: 'max_wal_senders', line: 'max_wal_senders = 1' }
-    - { regexp: 'max_replication_slots', line: 'max_replication_slots = 1' }
+    - { regexp: 'max_wal_senders', line: 'max_wal_senders = 10' }
+    - { regexp: 'max_replication_slots', line: 'max_replication_slots = 10' }
   notify:
     - Restart PostgreSQL
 

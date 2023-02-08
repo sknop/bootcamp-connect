@@ -55,11 +55,8 @@ CREATE PUBLICATION movielens_publication FOR ALL TABLES;
 
 CREATE ROLE debezium_replication_group;
 GRANT debezium_replication_group to ADMIN;
---
--- ALTER TABLE movielens.genres OWNER to debezium_replication_group;
--- ALTER TABLE movielens.movies OWNER to debezium_replication_group;
--- ALTER TABLE movielens.movies_to_genres OWNER to debezium_replication_group;
--- ALTER TABLE movielens.tags OWNER to debezium_replication_group;
--- ALTER TABLE movielens.ratings OWNER to debezium_replication_group;
+
+REASSIGN OWNED BY admin TO debezium_replication_group;
+
 
 
