@@ -20,7 +20,7 @@ resource "aws_instance" "mysql" {
 
   subnet_id = var.subnet-ids[1]
   availability_zone = var.availability-zones[1]
-  vpc_security_group_ids = var.security-groups
+  vpc_security_group_ids = concat(var.security-groups, aws_security_group.confluent-cloud.id)
   associate_public_ip_address = true
 }
 
@@ -58,7 +58,7 @@ resource "aws_instance" "postgres" {
 
   subnet_id = var.subnet-ids[1]
   availability_zone = var.availability-zones[1]
-  vpc_security_group_ids = var.security-groups
+  vpc_security_group_ids = concat(var.security-groups, aws_security_group.confluent-cloud.id)
   associate_public_ip_address = true
 }
 
@@ -97,7 +97,7 @@ resource "aws_instance" "elastic" {
 
   subnet_id = var.subnet-ids[count.index % length(var.subnet-ids)]
   availability_zone = var.availability-zones[count.index % length(var.availability-zones)]
-  vpc_security_group_ids = var.security-groups
+  vpc_security_group_ids = concat(var.security-groups, aws_security_group.confluent-cloud.id)
   associate_public_ip_address = true
 }
 
