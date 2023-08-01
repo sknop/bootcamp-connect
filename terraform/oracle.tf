@@ -26,7 +26,7 @@ resource "aws_db_instance" "oracle" {
   }
   multi_az               = false
   #subnet_ids             = module.vpc.database_subnets
-  vpc_security_group_ids = concat(var.security-groups, aws_security_group.confluent-cloud.id)
+  vpc_security_group_ids = concat(var.security-groups, [aws_security_group.confluent-cloud.id])
   db_subnet_group_name    = aws_db_subnet_group.oracle_subnet_group.name
 }
 
