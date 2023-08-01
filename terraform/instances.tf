@@ -26,7 +26,7 @@ resource "aws_instance" "mysql" {
 
 resource "aws_eip" "mysql" {
   instance  = aws_instance.mysql.id
-  vpc       = true
+  domain    = "vpc"
 }
 
 resource "aws_route53_record" "mysql" {
@@ -64,7 +64,7 @@ resource "aws_instance" "postgres" {
 
 resource "aws_eip" "postgres" {
   instance  = aws_instance.postgres.id
-  vpc       = true
+  domain    = "vpc"
 }
 
 resource "aws_route53_record" "postgres" {
