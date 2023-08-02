@@ -1,6 +1,6 @@
 [servers]
-mysql ansible_host=ec2-54-72-241-109.eu-west-1.compute.amazonaws.com
-oracle ansible_host=ec2-63-34-165-73.eu-west-1.compute.amazonaws.com
+mysql ansible_host=ec2-54-76-163-138.eu-west-1.compute.amazonaws.com
+postgres ansible_host=ec2-54-77-92-100.eu-west-1.compute.amazonaws.com
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
