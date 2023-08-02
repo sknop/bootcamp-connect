@@ -110,4 +110,4 @@
     dest: /tmp/movies.sql
 
 - name: Create tables
-  shell: psql movielens < /tmp/movies.sql
+  shell: su - postgres psql movielens < /tmp/movies.sql
