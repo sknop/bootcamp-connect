@@ -8,7 +8,7 @@ DROP SCHEMA movielens;
 
 DROP ROLE debezium;
 DROP ROLE debezium_replication_group;
-DROP PUBLICATION movielens_publication;
+DROP PUBLICATION dbz_publication;
 
 CREATE SCHEMA IF NOT EXISTS movielens;
 
