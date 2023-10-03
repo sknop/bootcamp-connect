@@ -1,6 +1,6 @@
 resource "aws_db_instance" "oracle" {
   engine               = "oracle-ee"
-  engine_version       = "19.0.0.0.ru-2021-10.rur-2021-10.r1"
+  engine_version       = "19.0.0.0.ru-2023-07.rur-2023-07.r1"
   instance_class       = "db.t3.large"
   db_name              = "BOOTCAMP"
   username             = var.root-username

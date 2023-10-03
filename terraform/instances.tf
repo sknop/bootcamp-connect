@@ -110,3 +110,9 @@ resource "aws_route53_record" "elastic" {
   ttl = "300"
   records = [element(aws_instance.elastic.*.private_ip, count.index)]
 }
+
+// Find the domain from the hosted zone id
+
+data "aws_route53_zone" "domain" {
+  zone_id = var.hosted-zone-id
+}

@@ -10,6 +10,11 @@ variable "key-name" {
   type = string
 }
 
+variable "private-key" {
+  description = "Absolute path to the private key"
+  type = string
+}
+
 variable "mysql-instance-type" {
   type = string
   default = "m5.large"

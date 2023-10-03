@@ -1,0 +1,17 @@
+[servers]
+mysql ansible_host=${mysql_host}
+postgres ansible_host=${postgres_host}
+oracle ansible_host=${oracle_host}
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_connection=ssh
+ansible_user=ubuntu
+ansible_become=true
+ansible_ssh_private_key_file=${private_key_file}
+
+# Set the desired domain here
+domain_name=${domain_name}
+
+db_user=admin
+db_pass=adminsecret

@@ -33,3 +33,8 @@ output "elasticsearch-private-ips" {
   description = "Where we can find the elastic search instances"
   value = aws_instance.elastic.*.private_dns
 }
+
+output "domain-name" {
+  description = "The name of the domain for the hosted zone"
+  value = data.aws_route53_zone.domain.name
+}
