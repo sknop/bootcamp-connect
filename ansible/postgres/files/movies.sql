@@ -57,6 +57,3 @@ CREATE ROLE debezium_replication_group;
 GRANT debezium_replication_group to ADMIN;
 
 REASSIGN OWNED BY admin TO debezium_replication_group;
-
-
-2

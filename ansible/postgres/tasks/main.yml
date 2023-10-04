@@ -110,4 +110,7 @@
     dest: /tmp/movies.sql
 
 - name: Create tables
+  become: true
+  become_method: su
+  become_exe: sudo su -
   shell: runuser -l postgres -c psql movielens < /tmp/movies.sql
