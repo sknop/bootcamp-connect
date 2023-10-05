@@ -1,0 +1,117 @@
+---
+# tasks file for postgres
+- name: Set hostname
+  hostname:
+    name: postgres.{{domain_name}}
+
+- name: Show host's IP
+  debug:
+    # msg: "{{ hostvars['mysql'] }}"
+    msg: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}"
+
+- name: Update /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    insertafter: '127.0.0.1 localhost'
+    line: "{{ ansible_default_ipv4.address|default(ansible_all_ipv4_addresses[0]) }}\tpostgres postgres.{{domain_name}}"
+    state: present
+
+- name: Install packages
+  package:
+    name: "{{item}}"
+    state: present
+    update_cache: yes
+  loop:
+    - postgresql
+    - postgresql-contrib
+    - python3-psycopg2
+    - acl # required to solve https://docs.ansible.com/ansible-core/2.14/playbook_guide/playbooks_privilege_escalation.html#resolving-temporary-file-error-messsages
+    - postgresql-12-wal2json # required for Debezium connector
+
+- name: Start and enable PostgreSQL service
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Enable external access in postgresql.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: 'listen_addresses'
+    line: "listen_addresses = '*'"
+    backup: yes
+  notify:
+    - Restart PostgreSQL
+
+- name: Enable external access and logging in postgresql.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+  loop:
+    - { regexp: 'listen_addresses', line: "listen_addresses = '*'" }
+    - { regexp: 'log_min_error_statement', line: 'log_min_error_statement = fatal' }
+    - { regexp: 'wal_level', line : 'wal_level = logical' }
+    - { regexp: 'max_wal_senders', line: 'max_wal_senders = 10' }
+    - { regexp: 'max_replication_slots', line: 'max_replication_slots = 10' }
+  notify:
+    - Restart PostgreSQL
+
+- name: Enable external access from everyone
+  lineinfile:
+    path: /etc/postgresql/12/main/pg_hba.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+  loop:
+    - { regexp: '^host    all             all             127.0.0.1/32            md5', line: 'host    all             all             0.0.0.0/0            md5' }
+    - { regexp: '^local   all             postgres                                peer', line: 'local   all             postgres                                trust' }
+    - { regexp: 'local   replication     all                                     peer', line: 'local   replication     all                                     trust'}
+    - { regexp: 'host    replication     all             127.0.0.1/32            md5', line: 'host    replication     all             127.0.0.1/32            trust'}
+    - { regexp: 'host    replication     all             ::1/128                 md5', line: 'host    replication     all             ::1/128                 trust'}
+  notify:
+    - Restart PostgreSQL
+
+- name: Create new database with name "movielens"
+  become: true
+  become_method: su
+  become_exe: sudo su -
+  become_user: postgres
+  postgresql_db:
+    name: movielens
+    state: present
+
+- name: Create 'admin' user
+  become_user: postgres
+  become_method: su
+  become_exe: sudo su -
+  postgresql_user:
+    db: movielens
+    name: "{{db_user}}"
+    password: "{{db_pass}}"
+    role_attr_flags: CREATEDB,SUPERUSER
+
+- name: Give permissions to 'admin'
+  become_user: postgres
+  become_method: su
+  become_exe: sudo su -
+  postgresql_privs:
+    type: database
+    database: movielens
+    state: present
+    privs: ALL
+    roles: admin
+    grant_option: true
+
+- name: Copy movies.sql to /tmp/
+  copy:
+    src: movies.sql
+    dest: /tmp/movies.sql
+
+- name: Create tables
+  become: true
+  become_method: su
+  become_exe: sudo su -
+  shell: PGPASSWORD={{db_pass}} psql -h localhost -U {{db_user}} movielens < /tmp/movies.sql
+
