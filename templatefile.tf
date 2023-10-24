@@ -8,7 +8,7 @@ variable "inventory_file" {
 
 resource "local_file" "ansible_inventory" {
   content = templatefile("${path.module}/${var.templatefile}", {
-    mysql_host = aws_eip.postgres.public_dns,
+    mysql_host = aws_eip.mysql.public_dns,
     postgres_host = aws_eip.postgres.public_dns,
     oracle_host = aws_db_instance.oracle.address
     private_key_file = var.private-key
