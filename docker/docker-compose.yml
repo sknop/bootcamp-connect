@@ -1,0 +1,18 @@
+---
+services:
+  postgres:
+    image: debezium/postgres:16-alpine
+    hostname: postgres
+    container_name: postgres
+    networks:
+      - postgres_network
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root-secret
+      POSTGRES_DB: users
+    ports:
+      - 5432:5432
+
+networks:
+  postgres_network:
