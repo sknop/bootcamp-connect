@@ -4,11 +4,11 @@ DROP TABLE IF EXISTS movielens.tags;
 DROP TABLE IF EXISTS movielens.movies;
 DROP TABLE IF EXISTS movielens.genres;
 
-DROP SCHEMA movielens;
+DROP SCHEMA IF EXISTS movielens;
 
-DROP ROLE debezium;
-DROP ROLE debezium_replication_group;
-DROP PUBLICATION dbz_publication;
+DROP ROLE IF EXISTS debezium;
+DROP PUBLICATION IF EXISTS dbz_publication;
+DROP ROLE IF EXISTS debezium_replication_group;
 
 CREATE SCHEMA IF NOT EXISTS movielens;
 

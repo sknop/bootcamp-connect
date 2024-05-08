@@ -1,20 +1,14 @@
 CREATE USER movielens IDENTIFIED BY movielens;
 
----
+--
 
 GRANT CREATE TABLE TO movielens;
 GRANT CREATE SESSION TO movielens;
 
 GRANT UNLIMITED TABLESPACE TO movielens;
 
-GRANT SELECT ON movielens.movies TO admin;
-GRANT SELECT ON movielens.movies_to_genres TO admin;
-GRANT SELECT ON movielens.tags TO admin;
-GRANT SELECT ON movielens.genres TO admin;
-
 GRANT CREATE USER, DROP USER to admin;
-GRANT CREATE TABLE, CREATE SESSION, CREATE SYNONYM,
-    CREATE VIEW to admin;
+GRANT CREATE TABLE, CREATE SESSION, CREATE SYNONYM, CREATE VIEW to admin;
 
 DROP TABLE movielens.movies_to_genres;
 DROP TABLE movielens.tags;
